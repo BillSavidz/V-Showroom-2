@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+header {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+
+header .logo {
+  height: 60px;
+  display: block;
+  margin: 0 auto 0.5rem;
+}
+
+footer {
+  background-color: #1e3a8a;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+footer a {
+  color: white;
+  margin: 0 0.3rem;
+}
+
+footer a:visited {
+  color: white;
+}
+
+.vehicle-grid {
+  padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+}
+
+.vehicle-card {
+  background-color: white;
+  border-radius: 10px;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.vehicle-card img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.vehicle-card h2 {
+  margin: 1rem;
+  color: #1e3a8a;
+}
+
+.vehicle-card p {
+  margin: 0 1rem 1rem;
+}
+
+.price-tags {
+  margin: 0 1rem;
+}
+
+.price {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.price.new {
+  background-color: #16a34a;
+}
+
+.price.preowned {
+  background-color: #2563eb;
+}
+
+.tax-note {
+  text-align: center;
+  font-style: italic;
+  margin: 1rem 0;
+  color: #555;
+}
