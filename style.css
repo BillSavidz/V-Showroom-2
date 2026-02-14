@@ -1,15 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); /* Poppins font family*/
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
+/* body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f4f4;
   color: #333;
   line-height: 1.6;
+} */
+
+body {
+  font-family: 'Poppins', serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
 }
+
 
 header {
   background-color: #1e3a8a;
@@ -72,7 +82,7 @@ footer a:visited {
 }
 
 .vehicle-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.10) translateY(10px);
 }
 
 .vehicle-card h2 {
