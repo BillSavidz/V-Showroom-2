@@ -13,7 +13,7 @@ function formatGHS(val) {
 }
 
 function sheetUrl() {
-  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 }
 
 function createVehicleCard(vehicle) {
@@ -23,27 +23,22 @@ function createVehicleCard(vehicle) {
   card.className = "vehicle-card";
 
   const formattedSpecs = specs
-    ? specs
-        .split("\n")
-        .map(line => line.replace(/^•\s*/, "").trim())
-        .filter(line => line.length > 0)
-        .map(line => `• ${line}`)
-        .join("<br>")
+    ? specs.split("\n").map(l => l.trim()).filter(Boolean).join("<br>")
     : "";
 
   card.innerHTML = `
+    <img src="images/logos/byd.png" class="brand-logo">
+
     <a href="${yt || "#"}" target="_blank">
-      <img src="images/${image || "placeholder.jpg"}" alt="${name}">
+      <img src="images/cars/${image || "placeholder.jpg"}">
     </a>
+
     <h2>${name}</h2>
     <p>${formattedSpecs}</p>
+
     <div class="price-tags">
       <span class="price new">New: ${formatGHS(ghsNew)}</span>
-      ${
-        ghsPre && ghsPre !== "-"
-          ? `<span class="price preowned">Pre-owned: ${formatGHS(ghsPre)}</span>`
-          : ""
-      }
+      ${ghsPre ? `<span class="price preowned">Pre-owned: ${formatGHS(ghsPre)}</span>` : ""}
     </div>
   `;
 
@@ -51,33 +46,28 @@ function createVehicleCard(vehicle) {
 }
 
 async function loadVehicles() {
-  try {
-    const response = await fetch(sheetUrl());
-    const text = await response.text();
-    const json = JSON.parse(text.substr(47).slice(0, -2));
-    const rows = json.table.rows;
+  const response = await fetch(sheetUrl());
+  const text = await response.text();
+  const json = JSON.parse(text.substr(47).slice(0, -2));
+  const rows = json.table.rows;
 
-    const container = document.getElementById("vehicles-container");
-    container.innerHTML = "";
+  const container = document.getElementById("vehicles-container");
+  container.innerHTML = "";
 
-    rows.forEach(row => {
-      if (!row.c || !row.c[0] || !row.c[0].v) return;
+  rows.forEach(row => {
+    if (!row.c?.[0]?.v) return;
 
-      const vehicle = {
-        name: row.c[0]?.v || "",
-        ghsNew: row.c[2]?.v || "",
-        ghsPre: row.c[4]?.v || "",
-        specs: row.c[6]?.v || "",
-        yt: row.c[7]?.v || "",
-        image: row.c[9]?.v || ""
-      };
+    const vehicle = {
+      name: row.c[0]?.v,
+      ghsNew: row.c[2]?.v,
+      ghsPre: row.c[4]?.v,
+      specs: row.c[6]?.v,
+      yt: row.c[7]?.v,
+      image: row.c[9]?.v
+    };
 
-      container.appendChild(createVehicleCard(vehicle));
-    });
-
-  } catch (err) {
-    console.error("Error loading vehicles:", err);
-  }
+    container.appendChild(createVehicleCard(vehicle));
+  });
 }
 
 document.addEventListener("DOMContentLoaded", loadVehicles);
