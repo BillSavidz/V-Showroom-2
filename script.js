@@ -3,9 +3,7 @@ const SHEET_ID = "18DipGlUjrFydq-xeJncUWtAhSiU2C4l6T8EZhrz9nu4";
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbylIuZUUsCFYnvyZf34oU1gh93C7J84aGXfgPtAw0eK-ihlEEep5qJbDOe_35hSQ0GY6A/exec";
 
-const SHEET_MAP = {
-  index: "BYD",
-};
+const SHEET_NAME = "BYD";
 
 let allVehicles = [];
 let currentSort = 0;
@@ -271,28 +269,16 @@ function renderVehicles(vehicles) {
 
 async function loadVehicles() {
   try {
-    const page = window.location.pathname
-      .split("/")
-      .pop()
-      .split(".")[0]
-      .toLowerCase();
-
-    console.log("Current page:", page);
-
-    const sheetName = SHEET_MAP[page];
-
-    console.log("Sheet name:", sheetName);
-
-    const response = await fetch(sheetUrl(sheetName));
-
-    console.log("Response received");
+    const response = await fetch(sheetUrl(SHEET_NAME));
 
     const text = await response.text();
-    const json = JSON.parse(text.substr(47).slice(0, -2));
+
+    const json = JSON.parse(text.substring(47).slice(0, -2));
 
     const rows = json.table.rows;
 
-    console.log("Rows:", rows);
+    console.log("Loading sheet:", SHEET_NAME);
+    console.log("Rows received:", rows.length);
 
     allVehicles = [];
 
@@ -317,6 +303,8 @@ async function loadVehicles() {
 
       allVehicles.push(vehicle);
     });
+
+    console.log("Vehicles loaded:", allVehicles);
 
     renderVehicles(allVehicles);
   } catch (error) {
